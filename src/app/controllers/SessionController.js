@@ -10,10 +10,14 @@ class SessionController {
 
         const isValid = await schema.isValid(request.body)
 
-        if (!isValid) {
-            return response
+        const emailOrPasswordIncorrect = () => {
+            response
             .status(401)
             .json({error: 'Make sure your email or password are correct'})
+        }
+
+        if (!isValid) {
+            return emailOrPasswordIncorrect()
         }
 
         const {email, password} = request.body
@@ -25,16 +29,21 @@ class SessionController {
         })
 
         if (!user) {
-            return response
-            .status(401)
-            .json({error: 'Make sure your email or password are correct'})
+            return emailOrPasswordIncorrect()
         }
 
-        const isSamePassword = await user.comparePassword(password)
+        const isSamePassword = await user.checkPassword(password)
 
-        console.log(isSamePassword)
+        if (!isSamePassword) {
+            return emailOrPasswordIncorrect()
+        }
 
-        return response.json({message: 'session'})
+        return response.status(201).json({
+            id: user.id, 
+            name: user.name, 
+            email, 
+            admin: user.admin
+        })
     }
 }
 
