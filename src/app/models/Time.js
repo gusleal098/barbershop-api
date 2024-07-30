@@ -1,10 +1,11 @@
 import Sequelize, { Model } from 'sequelize'
 
-class Category extends Model {
+class Time extends Model {
     static init(sequelize) {
         super.init(
             {
-                name: Sequelize.STRING,
+                date: Sequelize.DATEONLY,
+                time: Sequelize.TIME
             }, 
             {
                 sequelize
@@ -15,4 +16,4 @@ class Category extends Model {
     }
 }
 
-export default Category
+export default Time
