@@ -10,7 +10,7 @@ const ScheduleSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        phone_number: {
+        email: {
             type: String,
             required: true
         }

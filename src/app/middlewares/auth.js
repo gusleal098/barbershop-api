@@ -18,7 +18,7 @@ function authMiddleware (request, response, next) {
 
             request.userId = decoded.id
             request.userName = decoded.name
-            request.userPhoneNumber = decoded.phone_number
+            request.userEmail = decoded.email
         })
     } catch (err) {
         return response.status(401).json({error: 'Token is invalid'})

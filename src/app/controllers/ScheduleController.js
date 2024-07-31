@@ -54,7 +54,7 @@ class ScheduleController {
             user: {
                 id: request.userId,
                 name: request.userName,
-                phone_number: request.userPhoneNumber
+                email: request.userEmail
             },
             products: formattedProducts,
             status: 'Agendamento realizado'
