@@ -20,13 +20,19 @@ routes.post('/session', SessionController.store)
 routes.use(authMiddleware) // COBRA O TOKEN DE TODAS AS ROTAS A BAIXO
 routes.post('/products', upload.single('file'), ProductController.store)
 routes.get('/products', ProductController.index)
+routes.put('/products/:id', upload.single('file'), ProductController.update)
+
 
 routes.post('/categories', CategoryController.store)
 routes.get('/categories', CategoryController.index)
+routes.put('/categories/:id', CategoryController.update)
 
 routes.post('/times', TimeController.store)
 routes.get('/times', TimeController.index)
+routes.delete('/times/:id', TimeController.delete)
 
 routes.post('/schedules', ScheduleController.store)
+routes.get('/schedules', ScheduleController.index)
+routes.put('/schedules/:id', ScheduleController.update)
 
 export default routes
