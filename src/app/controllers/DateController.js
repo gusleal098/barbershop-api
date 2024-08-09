@@ -1,13 +1,11 @@
 import * as Yup from 'yup'
-import Time from '../models/Time'
-import User from '../models/User'
 import Date from '../models/Date'
+import User from '../models/User'
 
-class TimeController {
+class DateController {
     async store(request, response){
         const schema = Yup.object({
-            time: Yup.string().required(),
-            date_id: Yup.number().required()
+            date: Yup.string().required(),
         })
 
         try {
@@ -22,25 +20,23 @@ class TimeController {
             return response.status(401).json()
         }
 
-        const { time, date_id } = request.body
+        const { date } = request.body
 
-        const timesExists = await Time.findOne({
+        const datesExists = await Date.findOne({
             where: {
-                time,
-                date_id
+                date
             }
         })
 
-        if (timesExists) {
-            return response.status(400).json({ error: 'Time already exists'})
+        if (datesExists) {
+            return response.status(400).json({ error: 'Date already exists'})
         }
 
-        const {id} = await Time.create({
-            time,
-            date_id
+        const { id } = await Date.create({
+            date
         })
 
-        return response.status(201).json({id, time})
+        return response.status(201).json({ id, date})
     }
 
     async delete(request, response){
@@ -62,34 +58,26 @@ class TimeController {
 
         const { id } = request.params
 
-        const timesExists = await Time.findOne({
+        const datesExists = await Date.findOne({
             where: { id }
         })
 
-        if (!timesExists) {
-            return response.status(404).json({ error: 'Time not found'})
+        if (!datesExists) {
+            return response.status(404).json({ error: 'Date not found'})
         }
 
-        await Time.destroy({
+        await Date.destroy({
             where: {id}
         })
 
-        return response.status(200).json({ message: 'Time deleted sucessfully' })
+        return response.status(200).json({ message: 'Date deleted sucessfully' })
     }
 
     async index(request, response) {
-        const times = await Time.findAll({
-            include: [
-                {
-                    model: Date,
-                    as: 'date',
-                    attributes: ['id', 'date']
-                }
-            ]
-        })
+        const dates = await Date.findAll()
 
-        return response.json(times)
+        return response.json(dates)
     }
 }
 
-export default new TimeController()
+export default new DateController()

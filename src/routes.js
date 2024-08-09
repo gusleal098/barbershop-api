@@ -7,6 +7,7 @@ import UserController from './app/controllers/UserController'
 import SessionController from './app/controllers/SessionController'
 import ProductController from './app/controllers/ProductController'
 import CategoryController from './app/controllers/CategoryController'
+import DateController from './app/controllers/DateController'
 import TimeController from './app/controllers/TimeController'
 import ScheduleController from './app/controllers/ScheduleController'
 
@@ -26,6 +27,10 @@ routes.put('/products/:id', upload.single('file'), ProductController.update)
 routes.post('/categories', CategoryController.store)
 routes.get('/categories', CategoryController.index)
 routes.put('/categories/:id', CategoryController.update)
+
+routes.post('/dates', DateController.store)
+routes.get('/dates', DateController.index)
+routes.delete('/dates/:id', DateController.delete)
 
 routes.post('/times', TimeController.store)
 routes.get('/times', TimeController.index)

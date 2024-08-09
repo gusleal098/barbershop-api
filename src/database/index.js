@@ -6,9 +6,10 @@ import configDatabase from '../config/database'
 import User from '../app/models/User'
 import Product from '../app/models/Product';
 import Category from '../app/models/Category'
+import Date from '../app/models/Date'
 import Time from '../app/models/Time';
 
-const models = [User, Product, Category, Time]
+const models = [User, Product, Category, Date, Time]
 
 class Database {
     constructor() {

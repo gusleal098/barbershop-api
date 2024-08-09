@@ -3,6 +3,7 @@ import Schedule from '../schemas/Schedules';
 import Product from '../models/Product';
 import Category from '../models/Category';
 import Time from '../models/Time'
+import Date from '../models/Date'
 import User from '../models/User'
 
 class ScheduleController {
@@ -14,6 +15,13 @@ class ScheduleController {
           Yup.object({
             id: Yup.number().required(),
           }),
+        ),
+        date: Yup.array()
+        .required()
+        .of(
+            Yup.object({
+                id: Yup.date().required(),
+            })
         ),
         times: Yup.array()
         .required()
@@ -30,7 +38,7 @@ class ScheduleController {
       return response.status(400).json({ error: err.errors });
     }
 
-    const { products, times } = request.body;
+    const { products, date, times } = request.body;
 
     const productsIds = products.map((product) => product.id);
 
@@ -59,6 +67,23 @@ class ScheduleController {
       return newProduct;
     });
 
+    const datesId = date.map((date) => date.id)
+
+    const findDates = await Date.findAll({
+        where: {
+            id: datesId
+        }
+    })
+
+    const formattedDates = findDates.map((dates) => {
+        const newDate = {
+            id: dates.id,
+            date: dates.date,
+        }
+
+        return newDate
+    })
+
     const timesId = times.map((time) => time.id)
 
     const findTimes = await Time.findAll({
@@ -70,7 +95,7 @@ class ScheduleController {
     const formattedTimes = findTimes.map((times) => {
         const newTime = {
             id: times.id,
-            date: times.date,
+            // date: times.date,
             times: times.time
         }
 
@@ -84,6 +109,7 @@ class ScheduleController {
         phone_number: request.userPhoneNumber,
       },
       products: formattedProducts,
+      date: formattedDates,
       times: formattedTimes,
       status: 'Agendamento realizado',
     };

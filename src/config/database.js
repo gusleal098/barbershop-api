@@ -10,4 +10,9 @@ module.exports = {
         underscored: true,
         underscoredAll: true,
     },
+    timezone: 'Etc/UTC',
+    dialectOptions: {
+        useUTC: true,
+        dateStrings: true
+    }
 }

@@ -4,7 +4,6 @@ class Time extends Model {
     static init(sequelize) {
         super.init(
             {
-                date: Sequelize.DATEONLY,
                 time: Sequelize.TIME
             }, 
             {
@@ -13,6 +12,13 @@ class Time extends Model {
         )
 
         return this
+    }
+
+    static associate(models) {
+        this.belongsTo(models.Date, {
+            foreignKey: 'date_id',
+            as: 'date'
+        })
     }
 }
 
