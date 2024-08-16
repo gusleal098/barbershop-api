@@ -16,13 +16,13 @@ class ScheduleController {
             id: Yup.number().required(),
           }),
         ),
-        date: Yup.array()
-        .required()
-        .of(
-            Yup.object({
-                id: Yup.date().required(),
-            })
-        ),
+        // date: Yup.array()
+        // .required()
+        // .of(
+        //     Yup.object({
+        //         id: Yup.date().required(),
+        //     })
+        // ),
         times: Yup.array()
         .required()
         .of(
@@ -38,7 +38,7 @@ class ScheduleController {
       return response.status(400).json({ error: err.errors });
     }
 
-    const { products, date, times } = request.body;
+    const { products, times } = request.body;
 
     const productsIds = products.map((product) => product.id);
 
@@ -67,36 +67,44 @@ class ScheduleController {
       return newProduct;
     });
 
-    const datesId = date.map((date) => date.id)
+    // const datesId = date.map((date) => date.id)
 
-    const findDates = await Date.findAll({
-        where: {
-            id: datesId
-        }
-    })
+    // const findDates = await Date.findAll({
+    //     where: {
+    //         id: datesId
+    //     }
+    // })
 
-    const formattedDates = findDates.map((dates) => {
-        const newDate = {
-            id: dates.id,
-            date: dates.date,
-        }
+    // const formattedDates = findDates.map((dates) => {
+    //     const newDate = {
+    //         id: dates.id,
+    //         date: dates.date,
+    //     }
 
-        return newDate
-    })
+    //     return newDate
+    // })
 
     const timesId = times.map((time) => time.id)
 
     const findTimes = await Time.findAll({
         where: {
             id: timesId
-        }
+        },
+        include: [
+          {
+            model: Date,
+            as: 'date',
+            attributes: ['date'],
+          },
+        ],
     })
 
     const formattedTimes = findTimes.map((times) => {
         const newTime = {
             id: times.id,
             // date: times.date,
-            times: times.time
+            times: times.time,
+            date: times.date.date
         }
 
         return newTime
@@ -109,7 +117,6 @@ class ScheduleController {
         phone_number: request.userPhoneNumber,
       },
       products: formattedProducts,
-      date: formattedDates,
       times: formattedTimes,
       status: 'Agendamento realizado',
     };

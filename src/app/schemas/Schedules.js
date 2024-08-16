@@ -40,18 +40,6 @@ const ScheduleSchema = new mongoose.Schema({
         }
       }
     ],
-    date: [
-      {
-        id: {
-          type: Number,
-          required: true
-        },
-        date: {
-          type: Date,
-          required:true
-        }
-      }
-    ],
 
     times: [
       {
@@ -61,6 +49,10 @@ const ScheduleSchema = new mongoose.Schema({
         },
         times: {
           type: String,
+          required: true
+        },
+        date: {
+          type: Date,
           required: true
         }
       }
