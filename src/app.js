@@ -9,7 +9,7 @@ class App {
     constructor() {
         this.app = express()
 
-        this.app.use(cors()) // cors('https://playdoscortes.com.br')
+        this.app.use(cors()) // cors('https://barbershop.com.br')
         this.middlewares()
         this.routes()
     }

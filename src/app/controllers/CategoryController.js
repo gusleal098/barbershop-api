@@ -91,6 +91,40 @@ class CategoryController {
         return response.status(200).json()
     }
 
+    async delete(request, response){
+        const schema = Yup.object({
+            id: Yup.string().required()
+        })
+
+        try {
+            schema.validateSync(request.params, {abortEarly: false})
+        } catch (err) {
+            return response.status(400).json({error: err.erros})
+        }
+
+        const { admin: isAdmin } = await User.findByPk(request.userId)
+
+        if (!isAdmin) {
+            return response.status(401).json()
+        }
+
+        const { id } = request.params
+
+        const categoryExists = await Category.findOne({
+            where: { id }
+        })
+
+        if (!categoryExists) {
+            return response.status(404).json({ error: 'Category not found'})
+        }
+
+        await Category.destroy({
+            where: {id}
+        })
+
+        return response.status(200).json({ message: 'Category deleted sucessfully' })
+    }
+
     async index(request, response) {
         const categories = await Category.findAll()
 

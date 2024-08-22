@@ -23,10 +23,12 @@ routes.post('/products', upload.single('file'), ProductController.store)
 routes.get('/products', ProductController.index)
 routes.put('/products/:id', upload.single('file'), ProductController.update)
 
+routes.get('/users', UserController.index)
 
 routes.post('/categories', CategoryController.store)
 routes.get('/categories', CategoryController.index)
 routes.put('/categories/:id', CategoryController.update)
+routes.delete('/categories/:id', CategoryController.delete)
 
 routes.post('/dates', DateController.store)
 routes.get('/dates', DateController.index)

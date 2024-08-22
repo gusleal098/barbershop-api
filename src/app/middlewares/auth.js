@@ -8,7 +8,7 @@ function authMiddleware(request, response, next) {
     return response.status(401).json({ error: 'Token not provided' });
   }
 
-  const token = authToken.split(' ')[1]; // Use o índice correto para dividir o token
+  const token = authToken.split(' ')[1];
 
   try {
     jwt.verify(token, authConfig.secret, (err, decoded) => {

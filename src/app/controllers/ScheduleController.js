@@ -16,13 +16,6 @@ class ScheduleController {
             id: Yup.number().required(),
           }),
         ),
-        // date: Yup.array()
-        // .required()
-        // .of(
-        //     Yup.object({
-        //         id: Yup.date().required(),
-        //     })
-        // ),
         times: Yup.array()
         .required()
         .of(
@@ -67,23 +60,6 @@ class ScheduleController {
       return newProduct;
     });
 
-    // const datesId = date.map((date) => date.id)
-
-    // const findDates = await Date.findAll({
-    //     where: {
-    //         id: datesId
-    //     }
-    // })
-
-    // const formattedDates = findDates.map((dates) => {
-    //     const newDate = {
-    //         id: dates.id,
-    //         date: dates.date,
-    //     }
-
-    //     return newDate
-    // })
-
     const timesId = times.map((time) => time.id)
 
     const findTimes = await Time.findAll({
@@ -118,7 +94,7 @@ class ScheduleController {
       },
       products: formattedProducts,
       times: formattedTimes,
-      status: 'Agendamento realizado',
+      status: 'Realizado',
     };
 
     const createdSchedule = await Schedule.create(schedule);
